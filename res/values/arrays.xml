@@ -1146,6 +1146,7 @@
         <item>@string/status_bar_battery_status_percentage</item>
         <item>@string/status_bar_battery_status_circle</item>
         <item>@string/status_bar_battery_status_circle_percentage</item>
+        <item>@string/status_bar_battery_status_statusbar</item>
         <item>@string/status_bar_style_hidden</item>
     </string-array>
 
@@ -1154,6 +1155,7 @@
         <item>1</item>
         <item>2</item>
         <item>3</item>
+        <item>5</item>
         <item>4</item>
     </string-array>
 
