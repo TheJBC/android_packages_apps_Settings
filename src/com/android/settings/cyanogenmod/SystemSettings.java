@@ -16,11 +16,18 @@
 
 package com.android.settings.cyanogenmod;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.os.Bundle;
+import android.os.RemoteException;
+import android.os.ServiceManager;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.os.ServiceManager;
+import android.os.IBinder;
+import android.os.IPowerManager;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceScreen;
@@ -44,10 +51,11 @@ public class SystemSettings extends SettingsPreferenceFragment {
     private static final String KEY_NAVIGATION_BAR = "navigation_bar";
     private static final String KEY_SHOW_NAVBAR = "show_navbar";
     private static final String KEY_LOCK_CLOCK = "lock_clock";
+    private static final String KONSTA_NAVBAR = "konsta_navbar";
 
     private PreferenceScreen mNotificationPulse;
     private PreferenceScreen mBatteryPulse;
-    private CheckBoxPreference mShowNavbar;
+    private CheckBoxPreference mKonstaNavbar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -79,10 +87,9 @@ public class SystemSettings extends SettingsPreferenceFragment {
             }
         }
 
-        // Show navbar
-        mShowNavbar = (CheckBoxPreference) findPreference(KEY_SHOW_NAVBAR);
-        mShowNavbar.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
-                SystemSettings.KEY_SHOW_NAVBAR, 0) == 1);
+        mKonstaNavbar = (CheckBoxPreference) findPreference(KONSTA_NAVBAR);
+        mKonstaNavbar.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
+                Settings.System.KONSTA_NAVBAR, 0) == 1);
 
         // Only show the hardware keys config on a device that does not have a navbar
         // Only show the navigation bar config on phones that has a navigation bar
@@ -129,9 +136,31 @@ public class SystemSettings extends SettingsPreferenceFragment {
 
     @Override
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
-        if (preference == mShowNavbar) {
-            Settings.System.putInt(getContentResolver(), SystemSettings.KEY_SHOW_NAVBAR,
-                    mShowNavbar.isChecked() ? 1 : 0);
+        boolean value;
+
+        if (preference == mKonstaNavbar) {
+            Settings.System.putInt(getContentResolver(), Settings.System.KONSTA_NAVBAR,
+                    mKonstaNavbar.isChecked() ? 1 : 0);
+
+            new AlertDialog.Builder(getActivity())
+                    .setTitle(getResources().getString(R.string.konsta_navbar_dialog_title))
+                    .setMessage(getResources().getString(R.string.konsta_navbar_dialog_msg))
+                    .setNegativeButton(getResources().getString(R.string.konsta_navbar_dialog_negative), null)
+                    .setCancelable(false)
+                    .setPositiveButton(getResources().getString(R.string.konsta_navbar_dialog_positive), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            try {
+                                IBinder b = ServiceManager.getService(Context.POWER_SERVICE);
+                                IPowerManager pm = IPowerManager.Stub.asInterface(b);
+                                pm.crash("Navbar changed");
+                            } catch (android.os.RemoteException e) {
+                                //
+                            }
+                        }
+                    })
+                    .create()
+                    .show();
         } else {
             return super.onPreferenceTreeClick(preferenceScreen, preference);
         }

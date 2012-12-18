@@ -75,4 +75,10 @@
         android:fragment="com.android.settings.cyanogenmod.HardwareKeys"
         android:title="@string/hardware_keys_title" />
 
+    <CheckBoxPreference
+        android:key="konsta_navbar"
+        android:title="@string/konsta_navbar"
+        android:summary="@string/konsta_navbar_reboot"
+        android:defaultValue="false" />
+
 </PreferenceScreen>

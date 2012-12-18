@@ -4422,6 +4422,14 @@
 
     <!-- CYANOGENMOD EDITS START -->
 
+    <!-- Navbar -->
+    <string name="konsta_navbar">Show navigation bar</string>
+    <string name="konsta_navbar_reboot">Requires a reboot</string>
+    <string name="konsta_navbar_dialog_title">Reboot required</string>
+    <string name="konsta_navbar_dialog_msg">Please reboot to enable/disable the navigation bar</string>
+    <string name="konsta_navbar_dialog_negative">Reboot later</string>
+    <string name="konsta_navbar_dialog_positive">Hot reboot now</string>
+
     <string name="ok">OK</string>
 
     <!-- Quiet hours -->
