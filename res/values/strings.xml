@@ -4429,6 +4429,10 @@
     <string name="konsta_navbar_dialog_msg">Please reboot to enable/disable the navigation bar</string>
     <string name="konsta_navbar_dialog_negative">Reboot later</string>
     <string name="konsta_navbar_dialog_positive">Hot reboot now</string>
+	
+    <!-- Performance : Disable bootanimation -->
+    <string name="pref_disable_bootanimation_title">Disable boot animation</string>
+    <string name="pref_disable_bootanimation_summary">Don\'t show boot animation for faster boot</string>
 
     <string name="ok">OK</string>
 
