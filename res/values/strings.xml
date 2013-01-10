@@ -1320,6 +1320,8 @@
     <string name="wifi_required_info_text">To complete setup, your tablet needs access to Wi-Fi. After setup, you can switch between mobile data and Wi-Fi.</string>
 
     <!-- Dialog for Access Points --> <skip />
+    <!-- Label for automatically_connect -->
+    <string name="wifi_auto_connect">Automatically connect</string>
     <!-- Label to show/hide advanced options -->
     <string name="wifi_show_advanced">Show advanced options</string>
     <!-- Title for the WPS setup dialog [CHAR LIMIT=50] -->
@@ -3663,6 +3665,10 @@
          [CHAR LIMIT=40] -->
     <string name="sound_category_system_title">System</string>
 
+    <!-- Category title for headset specific Settings.
+         [CHAR LIMIT=40] -->
+    <string name="headset_category_title">Headset</string>
+
     <!-- Wifi Setup For Setup Wizard with XL screen -->
     <!-- Title shown in Wifi Setup Wizard with XL screen -->
     <string name="wifi_setup_title">Wi-Fi setup</string>
@@ -4867,6 +4873,7 @@
     <string name="volume_overlay_title">Volume panel style</string>
     <string name="volbtn_music_controls_title">Volume rocker music controls</string>
     <string name="volbtn_music_controls_summary">When screen off, long-pressing the volume rockers will seek music tracks</string>
+    <string name="headset_connect_player_title">Launch music app on connect</string>
     <string name="volume_ring_only_description">Ringtone</string>
     <string name="ring_mode_title">Ring mode</string>
     <string name="ring_mode_normal">Normal</string>
