@@ -21,6 +21,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SELinux;
@@ -35,8 +36,11 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -85,7 +89,7 @@ public class DeviceInfoSettings extends SettingsPreferenceFragment {
 
         setStringSummary(KEY_FIRMWARE_VERSION, Build.VERSION.RELEASE);
         findPreference(KEY_FIRMWARE_VERSION).setEnabled(true);
-        setValueSummary(KEY_BASEBAND_VERSION, "gsm.version.baseband");
+        setStringSummary(KEY_BASEBAND_VERSION, getCDMAbaseband());
         setStringSummary(KEY_DEVICE_MODEL, Build.MODEL + getMsvSuffix());
         setValueSummary(KEY_EQUIPMENT_ID, PROPERTY_EQUIPMENT_ID);
         setStringSummary(KEY_DEVICE_MODEL, Build.MODEL);
@@ -350,6 +354,35 @@ public class DeviceInfoSettings extends SettingsPreferenceFragment {
         }
     }
 
+    private String getCDMAbaseband() {
+        String bband = null;
+        BufferedReader reader = null;
+
+        try {
+            // Grab a reader to /sys/devices/system/soc/soc0/build_id
+            reader = new BufferedReader(new InputStreamReader(new FileInputStream("/sys/devices/system/soc/soc0/build_id")), 1000);
+
+            // Grab the first line from build_id
+             String line = reader.readLine();
+
+            // Split on the colon, we need info to the right of colon
+            bband = line.trim();
+        }
+        catch(IOException io) {
+            io.printStackTrace();
+            // bband = new String[1];
+            bband = "error";
+        }
+        finally {
+            // Make sure the reader is closed no matter what
+            try { reader.close(); }
+            catch(Exception e) {}
+            reader = null;
+        }
+
+        return bband;
+    }
+	
     public static String getFormattedKernelVersion() {
         try {
             return formatKernelVersion(readLine(FILENAME_PROC_VERSION));
